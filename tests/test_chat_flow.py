@@ -6,18 +6,14 @@ import time
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from driver_factory import get_driver
 
 OLLAMA_URL = os.environ.get('OLLAMA_URL', 'http://localhost:3000')
 
 class ChatFlowTestCase(unittest.TestCase):
 
     def setUp(self):
-        options = webdriver.ChromeOptions()
-        options.add_argument("--disable-web-security")
-        options.add_argument("--user-data-dir=/tmp/ollama-profile")
-        # options.add_argument("--headless")  # optional
-
-        self.driver = webdriver.Chrome(options=options)
+        self.driver = get_driver()
         self.driver.get(OLLAMA_URL)
 
     def tearDown(self):
