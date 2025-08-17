@@ -7,12 +7,17 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from driver_factory import get_driver
+import requests
 
 OLLAMA_URL = os.environ.get('OLLAMA_URL', 'http://localhost:3000')
 
 class ChatFlowTestCase(unittest.TestCase):
 
     def setUp(self):
+        try:
+            requests.get(OLLAMA_URL, timeout=5)
+        except Exception as e:
+            self.fail(f"Server not reachable at {OLLAMA_URL}: {e}")
         self.driver = get_driver()
         self.driver.get(OLLAMA_URL)
 
